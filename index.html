@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="uploadForm">
+        <input type="file" name="document" id="documentInput" />
+        <button type="submit">Subir</button>
+    </form>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const fileInput = document.getElementById('documentInput');
+            if (fileInput.files.length === 0) {
+                alert('Selecciona un archivo.');
+                return;
+            }
+            formData.append('document', fileInput.files[0]);
+            try {
+                const response = await fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                console.log(result);
+                alert('Archivo enviado correctamente');
+            } catch (error) {
+                console.error(error);
+                alert('Error al enviar el archivo');
+            }
+        });
+    </script>
+</body>
+</html>
