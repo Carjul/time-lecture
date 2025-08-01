@@ -2,15 +2,6 @@ const XLSX = require("xlsx");
 const fs = require("fs-extra");
 const { collection } = require("../db/index");
 
-function excelDateToJSDate(serial) {
-    const utc_days = Math.floor(serial - 25569);
-    const utc_value = utc_days * 86400;
-    const date_info = new Date(utc_value * 1000);
-    const fractional_day = serial - Math.floor(serial);
-    const total_seconds = Math.round(86400 * fractional_day);
-    date_info.setSeconds(total_seconds);
-    return date_info.toISOString().replace('T', ' ').substring(0, 19);
-}
 
 exports.uploadFile = async (req, res) => {
     const file = req.file;
@@ -34,11 +25,13 @@ exports.uploadFile = async (req, res) => {
 };
 
 exports.getLecturas = async (req, res) => {
-    const { num } = req.query;
-    if (!num) {
+    const { num, rango } = req.query;
+    if (!num && !rango) {
         return res.status(400).json({ message: "Medidor o Nic son requeridos" });
     }
     const nicNum = parseInt(num);
+    const r = parseInt(rango);
+
     let registroCentral = await collection.findOne({ NIC: nicNum });
     if (!registroCentral) {
         registroCentral = await collection.findOne({ Medidor: nicNum });
@@ -48,11 +41,11 @@ exports.getLecturas = async (req, res) => {
     }
     const anteriores = await collection.find({ ORDEN: { $lt: registroCentral.ORDEN } })
         .sort({ ORDEN: -1 })
-        .limit(12)
+        .limit(r)
         .toArray();
     const siguientes = await collection.find({ ORDEN: { $gt: registroCentral.ORDEN } })
         .sort({ ORDEN: 1 })
-        .limit(12)
+        .limit(r)
         .toArray();
     res.json({
         anteriores: anteriores.reverse(),
