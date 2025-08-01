@@ -21,7 +21,7 @@
             }
             formData.append('document', fileInput.files[0]);
             try {
-                const response = await fetch('http://localhost:3000/upload', {
+                const response = await fetch('https://time-lecture.onrender.com/upload', {
                     method: 'POST',
                     body: formData
                 });
