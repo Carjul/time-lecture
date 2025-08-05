@@ -1,79 +1,165 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --primary-bg: #e3f2fd;
+  --secondary-bg: #bbdefb;
+  --accent: #1976d2;
+  --accent-dark: #1565c0;
+  --accent-light: #90caf9;
+  --text-main: #1a237e;
+  --text-secondary: #3949ab;
+  --header-bg: #1565c0;
+  --header-text: #fff;
+  --button-bg: #1976d2;
+  --button-hover: #1565c0;
+  --button-text: #fff;
+  --table-header-bg: #1976d2;
+  --table-header-text: #fff;
+  --table-row-hover: #e3f2fd;
+  --central-row-bg: #b2ebf2;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #a3d5ec;
-
+  color: var(--text-main);
+  background-color: var(--primary-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--primary-bg);
+  color: var(--text-main);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--accent-dark);
+  margin-bottom: 0.5em;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 1.0em;
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0.7em 0;
+  border-radius: 10px;
+  margin-bottom: 1.5em;
+  letter-spacing: 2px;
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--accent-dark);
 }
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border: none;
+  padding: 0.6em 1.5em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #504646;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0001;
 }
 button:hover {
-  border-color: #646cff;
+  background: var(--button-hover);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 3px solid var(--accent-light);
+}
+
+input, select {
+  border-radius: 6px;
+  border: 1px solid var(--accent-light);
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-family: inherit;
+  background: var(--secondary-bg);
+  color: var(--text-main);
+  margin-right: 0.5em;
+  transition: border 0.2s;
+}
+input:focus, select:focus {
+  border: 1.5px solid var(--accent);
+  outline: none;
 }
 
 .card {
   padding: 2em;
+  background: var(--secondary-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0001;
 }
 
-#app {
-  max-width: 1280px;
+#app, .container {
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5em;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0001;
+}
+
+th {
+  background: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-weight: bold;
+  padding: 0.7em;
+  font-size: 1.05em;
+  letter-spacing: 1px;
+}
+
+td {
+  padding: 0.6em;
+  border-bottom: 1px solid var(--accent-light);
+  color: var(--text-secondary);
+}
+
+tr.central {
+  background: var(--central-row-bg) !important;
+}
+
+tr:hover {
+  background: var(--table-row-hover);
+}
+
+@media (max-width: 700px) {
+  #app, .container {
+    padding: 0.5rem;
   }
-  a:hover {
-    color: #747bff;
+  table, th, td {
+    font-size: 0.95em;
   }
-  button {
-    background-color: #f9f9f9;
+  select {
+    width: 100%;
+    margin-bottom: 1em;
+    margin-right: 0;
+    box-sizing: border-box;
+    
+  }
+  h1 {
+    font-size: 1.5em;
+    padding: 0.5em 0;
   }
 }

@@ -37,7 +37,7 @@ async function handleUpload() {
   const formData = new FormData()
   formData.append('document', file.value)
   try {
-    const res = await fetch('http://localhost:3000/upload', {
+    const res = await fetch('/api/upload', {
       method: 'POST',
       body: formData
     })

@@ -15,13 +15,14 @@ app.use(morgan("combined"));
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname,  "./public/dist/"))
+// Todas las rutas que NO sean /api/* devuelven index.html (para rutas internas del frontend)
+app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "public/dist/"));
 });
 
 // Importa y usa las rutas
-app.use(require("./routes/get"));
-app.use(require("./routes/post"));
+app.use("/api",require("./routes/get"));
+app.use("/api",require("./routes/post"));
 
 connectDB();
 

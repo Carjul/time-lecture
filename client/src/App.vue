@@ -1,98 +1,31 @@
 <template>
-  <div class="container">
-    <header>
-      <h1>Tiempos de Lecturas</h1>
-    </header>
-    <main>
-      <section class="busqueda">
-        <select v-model="rango">
-          <option v-for="n in rangos" :key="n" :value="n">{{ n }}</option>
-        </select>
-        <input
-          type="number"
-          v-model="num"
-          placeholder="Ingrese NIC o Medidor"
-          min="0"
-        />
-        <button @click="fetchLecturas">Buscar</button>
-      </section>
-    
-      <LecturasList :lecturas="lecturas" />
-    </main>
-  </div>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/upload">upload</RouterLink>
+  </nav>
+  <main>
+    <RouterView />
+  </main>
 </template>
-
 <script setup>
-import { ref, onMounted } from 'vue'
-import LecturasList from './components/LecturasList.vue'
-
-const lecturas = ref([])
-const num = ref('')
-const rango = ref(10)
-const rangos = [10, 20, 30, 40, 50, 60]
-
-const fetchLecturas = async () => {
-  if (!num.value) return
-  const res = await fetch(`http://localhost:3000/lecturas?num=${num.value}&rango=${rango.value}`)
-  const data = await res.json()
-  lecturas.value = data
-}
-
-onMounted(fetchLecturas)
 </script>
-
 <style scoped>
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 1rem;
-}
-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-main {
+nav {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-.busqueda {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+
 }
-.busqueda select,
-.busqueda input {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-.busqueda input {
-  width: 180px;
-}
-.busqueda button {
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  background: #42b883;
-  color: white;
-  border: none;
+nav a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: bold;
+  padding: 0.1rem 0.1rem;
   border-radius: 4px;
-  cursor: pointer;
+  transition: background 0.3s;
 }
-.busqueda button:hover {
-  background: #369870;
+nav a:hover {
+  background: var(--accent-light);
 }
-@media (max-width: 600px) {
-  .container {
-    padding: 0.5rem;
-  }
-  .busqueda {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .busqueda input,
-  .busqueda select {
-    width: 100%;
-  }
-}
+
 </style>

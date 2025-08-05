@@ -1,6 +1,6 @@
 <template>
   <section class="lecturas-section">
-    <h2>Listado de Lecturas</h2>
+    
     <div v-if="!allLecturas.length">No hay lecturas para mostrar.</div>
     <table v-else>
       <thead>
@@ -69,52 +69,99 @@ function formatFecha(serial) {
 </script>
 
 <style scoped>
+:root {
+  --primary-bg: #e3f2fd;
+  --secondary-bg: #bbdefb;
+  --accent: #1976d2;
+  --accent-dark: #1565c0;
+  --accent-light: #90caf9;
+  --text-main: #1a237e;
+  --text-secondary: #3949ab;
+  --header-bg: #1565c0;
+  --header-text: #fff;
+  --table-header-bg: #1976d2;
+  --table-header-text: #fff;
+  --table-row-hover: #e3f2fd;
+  --central-row-bg: #61e7e1;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
 .lecturas-section {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px #0001;
+  background: var(--secondary-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0002;
   overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  color: var(--accent-dark);
+  margin-bottom: 1em;
+  font-size: 1.5em;
+  font-family: inherit;
+  font-weight: 200;
+  letter-spacing: 1px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0001;
 }
 
 th {
-  background: #696868;
-  color: #fff;
+  background: var(--table-header-bg);
+  color: var(--table-header-text);
   font-weight: bold;
-  padding: 0.5rem;
+  padding: 0.7em;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--accent-light);
 }
 
 td {
-  border: 1px solid #e0e0e0;
-  padding: 0.5rem;
+  border-bottom: 1px solid var(--accent-light);
+  padding: 0.6em;
   text-align: left;
-  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-size: 1em;
+  font-family: inherit;
 }
 
-span,
-h2,
+tr.central {
+  background: var(--central-row-bg) !important;
+}
+
+tr:hover {
+  background: var(--table-row-hover);
+}
+
+span {
+  text-transform: none;
+  color: var(--text-main);
+  font-weight: 400;
+}
+
 div {
-  text-transform: capitalize;
-  color: black;
-  font-size: bold;
+  color: var(--accent-dark);
+  font-size: 1em;
+  margin-bottom: 1em;
 }
 
-.central {
-  background: #198f3b !important;
-}
-
-@media (max-width: 600px) {
-
-  th,
-  td {
-    font-size: 0.8rem;
-    padding: 0.3rem;
+@media (max-width: 700px) {
+  .lecturas-section {
+    padding: 0.7rem;
+  }
+  table, th, td {
+    font-size: 0.92em;
+  }
+  h2 {
+    font-size: 1.1em;
   }
 }
 </style>
