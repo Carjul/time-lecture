@@ -45,7 +45,7 @@ onMounted(fetchLecturas)
 .container {
   max-width: 900px;
   margin: auto;
-  padding: 1rem;
+  padding: 0.2rem;
 }
 header {
   text-align: center;
@@ -82,7 +82,7 @@ main {
 .busqueda button:hover {
   background: #369870;
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .container {
     padding: 0.5rem;
   }

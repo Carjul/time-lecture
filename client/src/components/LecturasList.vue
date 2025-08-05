@@ -67,7 +67,6 @@ function formatFecha(serial) {
   return parts.length > 1 ? parts[1].trim() : date_info.toLocaleString()
 }
 </script>
-
 <style scoped>
 :root {
   --primary-bg: #e3f2fd;
@@ -88,11 +87,13 @@ function formatFecha(serial) {
 
 .lecturas-section {
   background: var(--secondary-bg);
-  padding: 2rem;
+  padding: 0.1rem;
   border-radius: 12px;
   box-shadow: 0 2px 12px #0002;
+  margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
   overflow-x: auto;
-  margin-bottom: 2rem;
 }
 
 h2 {
@@ -106,6 +107,7 @@ h2 {
 
 table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   margin-top: 1rem;
   background: #fff;
@@ -125,7 +127,7 @@ th {
 }
 
 td {
-  border-bottom: 1px solid var(--accent-light);
+  border-bottom: 2px solid var(--accent-light);
   padding: 0.6em;
   text-align: left;
   color: var(--text-secondary);
@@ -155,10 +157,28 @@ div {
 
 @media (max-width: 700px) {
   .lecturas-section {
-    padding: 0.7rem;
+    padding: 0.3rem;
+    border-radius: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
   }
-  table, th, td {
-    font-size: 0.92em;
+  table {
+    min-width: 0;
+    width: 100%;
+    font-size: 0.98em;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  th {
+     font-size: 0.98em;
+    padding: 0.4em 0.2em;
+  }
+  td {
+    font-size: 20px;
+    padding: 0.1em 0.2em;
+    
   }
   h2 {
     font-size: 1.1em;

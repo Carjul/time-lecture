@@ -145,18 +145,21 @@ tr:hover {
 }
 
 @media (max-width: 700px) {
+  body{
+    width: 500px
+  }
   #app, .container {
     padding: 0.5rem;
   }
   table, th, td {
-    font-size: 0.95em;
+    font-size: 2.95em;
   }
-  select {
+  select, input {
     width: 100%;
     margin-bottom: 1em;
     margin-right: 0;
     box-sizing: border-box;
-    
+
   }
   h1 {
     font-size: 1.5em;
