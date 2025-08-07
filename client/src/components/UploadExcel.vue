@@ -62,6 +62,7 @@ async function handleUpload() {
   box-shadow: 0 2px 8px #0001;
   max-width: 400px;
   margin: auto;
+  margin-bottom:5rem;
 }
 form {
   display: flex;

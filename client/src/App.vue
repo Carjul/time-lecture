@@ -1,11 +1,12 @@
 <template>
-  <nav>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/upload">upload</RouterLink>
-  </nav>
+ 
   <main>
     <RouterView />
   </main>
+   <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/upload">upload</RouterLink>
+  </nav>
 </template>
 <script setup>
 </script>

@@ -8,7 +8,7 @@
         <select v-model="rango">
           <option v-for="n in rangos" :key="n" :value="n">{{ n }}</option>
         </select>
-        <input type="text" v-model="num" placeholder="Ingrese NIC o Medidor" min="0" />
+        <input type="text" v-model="num" placeholder="Ingrese NIC o Medidor"  />
         <button @click="fetchLecturas">Buscar</button>
       </section>
         <div v-if="alertMsg==='no encontrado'">
@@ -98,7 +98,7 @@ main {
   gap: 1rem;
   align-items: center;
   justify-items: center;
-  width: 100%;
+  width: 90%;
   max-width: 450px;
   margin: 0 auto;
   background: var(--secondary-bg);
