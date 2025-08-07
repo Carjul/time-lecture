@@ -230,7 +230,7 @@ tr:hover {
     padding: 0.7rem 0.2rem;
     border-radius: 8px;
     margin-bottom: 1rem;
-    width: 98vw;
+    width: 100%;
     min-width: 0;
     box-sizing: border-box;
     display: flex;
@@ -239,10 +239,11 @@ tr:hover {
     justify-content: flex-start;
     background: var(--secondary-bg);
     overflow-x: auto;
+    
   }
 
   table {
-    min-width: 600px;
+    min-width: 800px;
     width: auto;
     font-size: 1.1em;
     border-radius: 8px;

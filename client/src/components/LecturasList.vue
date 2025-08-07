@@ -157,7 +157,7 @@ span {
 
 div {
   color: var(--accent-dark);
-  font-size: 2em;
+  font-size: 1em;
   margin-bottom: 1em;
   grid-row: 2;
 }
