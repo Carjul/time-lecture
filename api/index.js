@@ -11,7 +11,7 @@ const app = express();
 app.set('port', process.env.PORT)
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static("public/dist"));
-app.use(morgan("combined"));
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
@@ -23,6 +23,7 @@ app.get(/^\/(?!api).*/, (req, res) => {
 // Importa y usa las rutas
 app.use("/api",require("./routes/get"));
 app.use("/api",require("./routes/post"));
+
 
 connectDB();
 
