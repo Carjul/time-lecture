@@ -99,7 +99,7 @@ main {
   align-items: center;
   justify-items: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   margin: 0 auto;
   background: var(--secondary-bg);
   padding: 1rem;

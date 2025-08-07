@@ -207,7 +207,7 @@ tr:hover {
     font-size: 1.1em;
     padding: 0.7em 0;
   }
-  .lecturas-section {
+   .lecturas-section {
     padding: 0.7rem 0.2rem;
     border-radius: 8px;
     margin-bottom: 1rem;
@@ -219,23 +219,24 @@ tr:hover {
     align-items: center;
     justify-content: flex-start;
     background: var(--secondary-bg);
-  }
-  h2 {
-    font-size: 1.2em;
-    margin-bottom: 0.7em;
-    text-align: center;
-    width: 100%;
+    overflow-x: auto;
   }
   table {
-    min-width: 0;
-    width: 100%;
+    min-width: 600px; 
+    width: auto;
     font-size: 1.1em;
     border-radius: 8px;
     box-shadow: 0 2px 8px #0001;
     background: #fff;
     margin-bottom: 1em;
-    overflow-x: auto;
-    display: block;
+    overflow: visible;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin-bottom: 0.7em;
+    text-align: center;
+    width: 100%;
   }
   th, td {
     font-size: 1.1em;
