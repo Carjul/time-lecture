@@ -47,7 +47,7 @@ const headers = computed(() => {
   const first = allLecturas.value[0]
   return first
     ? Object.keys(first).filter(
-      (key) => key !== '_id' && key !== 'CRUCE'
+      (key) => key !== '_id' && key !== 'CRUCE' && key !== 'ORDEN'
     )
     : []
 })
@@ -69,31 +69,34 @@ function formatFecha(serial) {
 </script>
 <style scoped>
 :root {
-  --primary-bg: #e3f2fd;
-  --secondary-bg: #bbdefb;
-  --accent: #1976d2;
-  --accent-dark: #1565c0;
-  --accent-light: #90caf9;
-  --text-main: #1a237e;
-  --text-secondary: #3949ab;
-  --header-bg: #1565c0;
+  --primary-bg: #e8f5e9;
+  --secondary-bg: #c8e6c9;
+  --accent: #388e3c;
+  --accent-dark: #1b5e20;
+  --accent-light: #a5d6a7;
+  --text-main: #1b5e20;
+  --text-secondary: #388e3c;
+  --header-bg: #43a047;
   --header-text: #fff;
-  --table-header-bg: #1976d2;
+  --table-header-bg: #388e3c;
   --table-header-text: #fff;
-  --table-row-hover: #e3f2fd;
-  --central-row-bg: #61e7e1;
+  --table-row-hover: #e8f5e9;
+  --central-row-bg: #b9f6ca;
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .lecturas-section {
   background: var(--secondary-bg);
-  padding: 0.1rem;
   border-radius: 12px;
   box-shadow: 0 2px 12px #0002;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   width: 100%;
   box-sizing: border-box;
-  overflow-x: auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+  align-items: start;
+  padding: 2rem;
 }
 
 h2 {
@@ -101,19 +104,21 @@ h2 {
   margin-bottom: 1em;
   font-size: 1.5em;
   font-family: inherit;
-  font-weight: 200;
+  font-weight: 600;
   letter-spacing: 1px;
+  grid-row: 1;
+  justify-self: center;
 }
 
 table {
   width: 100%;
-  min-width: 600px;
   border-collapse: collapse;
   margin-top: 1rem;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px #0001;
+  grid-row: 2;
 }
 
 th {
@@ -147,41 +152,14 @@ span {
   text-transform: none;
   color: var(--text-main);
   font-weight: 400;
+  padding: 12px 0px 12px 10px;
 }
 
 div {
   color: var(--accent-dark);
-  font-size: 1em;
+  font-size: 2em;
   margin-bottom: 1em;
+  grid-row: 2;
 }
 
-@media (max-width: 700px) {
-  .lecturas-section {
-    padding: 0.3rem;
-    border-radius: 0;
-    margin-bottom: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: auto;
-  }
-  table {
-    min-width: 0;
-    width: 100%;
-    font-size: 0.98em;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  th {
-     font-size: 0.98em;
-    padding: 0.4em 0.2em;
-  }
-  td {
-    font-size: 20px;
-    padding: 0.1em 0.2em;
-    
-  }
-  h2 {
-    font-size: 1.1em;
-  }
-}
 </style>

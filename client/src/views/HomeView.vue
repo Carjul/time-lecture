@@ -8,16 +8,15 @@
         <select v-model="rango">
           <option v-for="n in rangos" :key="n" :value="n">{{ n }}</option>
         </select>
-        <input
-          type="number"
-          v-model="num"
-          placeholder="Ingrese NIC o Medidor"
-          min="0"
-        />
+        <input type="text" v-model="num" placeholder="Ingrese NIC o Medidor" min="0" />
         <button @click="fetchLecturas">Buscar</button>
       </section>
-    
-      <LecturasList :lecturas="lecturas" />
+        <div v-if="alertMsg==='no encontrado'">
+          <AlertMsg :msg="alertMsg" @close="alertMsg = ''" />
+        </div>
+        <div v-else>
+          <LecturasList :lecturas="lecturas" />
+        </div>
     </main>
   </div>
 </template>
@@ -25,74 +24,121 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import LecturasList from '../components/LecturasList.vue'
+import AlertMsg from '../components/AlertMsg.vue'
 
 const lecturas = ref([])
 const num = ref('')
 const rango = ref(10)
 const rangos = [10, 20, 30, 40, 50, 60]
+const alertMsg = ref('')
 
 const fetchLecturas = async () => {
   if (!num.value) return
   const res = await fetch(`/api/lecturas?num=${num.value}&rango=${rango.value}`)
   const data = await res.json()
+  if (data.Msg) {
+    lecturas.value = []
+    alertMsg.value = data.Msg
+    return
+  }
+  alertMsg.value = ''
   lecturas.value = data
+
 }
 
 onMounted(fetchLecturas)
 </script>
-
 <style scoped>
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 0.2rem;
+:root {
+  --primary-bg: #e8f5e9;
+  --secondary-bg: #c8e6c9;
+  --accent: #388e3c;
+  --accent-dark: #1b5e20;
+  --accent-light: #a5d6a7;
+  --text-main: #1b5e20;
+  --text-secondary: #388e3c;
+  --header-bg: #43a047;
+  --header-text: #fff;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
+
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+  align-items: start;
+  min-height: 100vh;
+  background: var(--primary-bg);
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
 header {
+  width: 100%;
   text-align: center;
   margin-bottom: 2rem;
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0rem 0;
+  border-radius: 10px;
+  letter-spacing: 2px;
 }
+
 main {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
   gap: 2rem;
+  width: 100%;
+  justify-items: center;
 }
+
 .busqueda {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   gap: 1rem;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--secondary-bg);
+  padding: 1rem;
+  border-radius: 8px;
 }
+
 .busqueda select,
 .busqueda input {
   padding: 0.5rem;
   font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent-light);
+  background: var(--primary-bg);
+  color: var(--text-main);
+  font-family: inherit;
+  transition: border 0.2s;
+  width: 100%;
 }
+
 .busqueda input {
-  width: 180px;
+  max-width: 180px;
 }
+
 .busqueda button {
   padding: 0.5rem 1.2rem;
   font-size: 1rem;
-  background: #42b883;
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0001;
 }
+
 .busqueda button:hover {
-  background: #369870;
+  background: var(--accent-dark);
 }
-@media (max-width: 700px) {
-  .container {
-    padding: 0.5rem;
-  }
-  .busqueda {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .busqueda input,
-  .busqueda select {
-    width: 100%;
-  }
-}
+
 </style>
