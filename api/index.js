@@ -24,13 +24,15 @@ app.get(/^\/(?!api).*/, (req, res) => {
 let count = 0;
 setInterval(() => {
     count++;
-    console.log("Interval count: ", count);
-    console.log("Current time: ", new Date().toLocaleString());
     fetch('https://time-lecture.onrender.com/api/ping')
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => console.log({
+            "Interval count: ": count,
+            "Current time: ": new Date().toLocaleString(),
+            data
+        }))
         .catch(error => console.error("Error fetching API: ", error));
-}, 300000);
+}, 120000);
 
 
 // Importa y usa las rutas
