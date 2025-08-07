@@ -252,10 +252,6 @@ tr:hover {
     overflow: visible;
   }
 
-  tr.central {
-    background: var(--central-row-bg) !important;
-  }
-
   h2 {
     font-size: 1.2em;
     margin-bottom: 0.7em;
@@ -284,9 +280,9 @@ tr:hover {
     background: #fff;
   }
 
-  tr.central {
-    background: var(--central-row-bg) !important;
-  }
+ tr.central td {
+  background: var(--central-row-bg) !important;
+}
 
   tr:hover {
     background: var(--table-row-hover);
