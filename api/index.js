@@ -20,6 +20,20 @@ app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, "public/dist/"));
 });
 
+// looger
+setInterval(() => {
+    console.log("Current time: ", new Date().toLocaleString());
+    console.log("Memory usage: ", process.memoryUsage());
+
+}, 300000);
+
+setInterval(() => {
+   fetch('https://time-lecture.onrender.com/api/ping')
+       .then(response => response.json())
+       .then(data => console.log( data))
+       .catch(error => console.error("Error fetching GitHub API: ", error));
+}, 6000);
+
 // Importa y usa las rutas
 app.use("/api",require("./routes/get"));
 app.use("/api",require("./routes/post"));
