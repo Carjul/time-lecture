@@ -55,7 +55,21 @@ exports.getLecturas = async (req, res) => {
 };
 
 exports.getAllLecturas = async (req, res) => {
-    const all = await collection.find().limit(1000).toArray();
+  const page = parseInt(req.query.page) || 1; // página actual
+  const limit = parseInt(req.query.limit) || 1000; // registros por página
+  const skip = (page - 1) * limit;
 
-    res.json(all);
-}
+  const data = await collection.find()
+    .skip(skip)
+    .limit(limit)
+    .toArray();
+
+  res.json({
+    page,
+    limit,
+    total: await collection.countDocuments(),
+    data
+  });
+};
+
+
