@@ -55,6 +55,7 @@ exports.getLecturas = async (req, res) => {
 };
 
 exports.getAllLecturas = async (req, res) => {
-    const all = await collection.find().toArray();
+    const all = await collection.find().limit(1000).toArray();
+
     res.json(all);
 }
