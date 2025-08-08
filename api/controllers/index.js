@@ -53,3 +53,8 @@ exports.getLecturas = async (req, res) => {
         siguientes: siguientes,
     });
 };
+
+exports.getAllLecturas = async (req, res) => {
+    const all = await collection.find().toArray();
+    res.json(all);
+}
