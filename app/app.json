@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "time-lecture",
+    "name": "Tiempos de Lectura",
     "slug": "snack-f7707f97-36b7-44dd-8e96-370c172ace31",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -20,13 +20,19 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.carjul.snackf7707f9736b744dd8e96370c172ace31"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-sqlite"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "fa9e0b4c-c0be-4550-8e82-608ae5bedbcd"
+      }
+    }
   }
 }

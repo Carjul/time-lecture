@@ -7,52 +7,80 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import {  buscarLecturasConRango } from '../storage/storage.js'
+import { Picker } from '@react-native-picker/picker'; 
+import { buscarLecturasConRango } from '../storage/storage.js';
 
 function formatFecha(serial) {
-  if (!serial) return ''
-  const utc_days = Math.floor(serial - 25569)
-  const utc_value = utc_days * 86400
-  const date_info = new Date(utc_value * 1000)
-  const fractional_day = serial - Math.floor(serial)
-  const total_seconds = Math.round(86400 * fractional_day)
-  date_info.setSeconds(total_seconds)
-  const parts = date_info.toLocaleString().split(',')
-  return parts.length > 1 ? parts[1].trim() : date_info.toLocaleString()
+  if (!serial) return '';
+  const utc_days = Math.floor(serial - 25569);
+  const utc_value = utc_days * 86400;
+  const date_info = new Date(utc_value * 1000);
+  const fractional_day = serial - Math.floor(serial);
+  const total_seconds = Math.round(86400 * fractional_day);
+  date_info.setSeconds(total_seconds);
+  const parts = date_info.toLocaleString().split(',');
+  return parts.length > 1 ? parts[1].trim() : date_info.toLocaleString();
 }
+
 const SearchStorageComponent = () => {
   const [query, setQuery] = useState('');
-const [results, setResults] = useState([]);
-const [centralId, setCentralId] = useState(null);
+  const [range, setRange] = useState(10); // rango seleccionado
+  const [results, setResults] = useState([]);
+  const [centralId, setCentralId] = useState(null);
 
-const handleSearch = async () => {
-  try {
-    const resultado = buscarLecturasConRango(query, 10);
-  
-    if(resultado.Msg){
-      setResults([]);
-      setCentralId(null);
-      alert(resultado.Msg)
-      return
+  const handleSearch = async () => {
+    try {
+      const resultado = buscarLecturasConRango(query, range);
+
+      if (resultado.Msg) {
+        setResults([]);
+        setCentralId(null);
+        alert(resultado.Msg);
+        return;
+      }
+
+      setCentralId(resultado.central?.id);
+
+      const listaFinal = [
+        ...(resultado.anteriores || []),
+        resultado.central,
+        ...(resultado.siguientes || []),
+      ];
+
+      setResults(listaFinal);
+    } catch (e) {
+      console.error('Error searching in storage:', e);
     }
-    // Guardamos el ID del central para poder identificarlo luego
-    setCentralId(resultado.central?.id);
+  };
 
-    const listaFinal = [
-      ...(resultado.anteriores || []),
-      resultado.central,
-      ...(resultado.siguientes || []),
-    ];
+  const renderHeader = () => (
+    <View style={styles.tableHeader}>
+      <Text style={styles.headerCell}>NIC</Text>
+      <Text style={styles.headerCell}>Medidor</Text>
+      <Text style={styles.headerCell}>Suscriptor</Text>
+      <Text style={styles.headerCell}>Localidad</Text>
+      <Text style={styles.headerCell}>Dirección</Text>
+      <Text style={styles.headerCell}>Hora</Text>
+    </View>
+  );
 
-    setResults(listaFinal);
-  } catch (e) {
-    console.error('Error searching in storage:', e);
-  }
-};
+  const renderItem = ({ item }) => {
+    const isCentral = item.id === centralId;
+    return (
+      <View style={[styles.tableRow, isCentral && styles.centralRow]}>
+        <Text style={styles.cell}>{item.NIC}</Text>
+        <Text style={styles.cell}>{item.Medidor}</Text>
+        <Text style={styles.cell}>{item.Suscriptor}</Text>
+        <Text style={styles.cell}>{item.Localidad}</Text>
+        <Text style={styles.cell}>{item.Direccion}</Text>
+        <Text style={styles.cell}>{formatFecha(item.Fecha)}</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Buscar:</Text>
+      <Text style={styles.title}>Buscar lecturas</Text>
 
       <TextInput
         style={styles.input}
@@ -62,6 +90,17 @@ const handleSearch = async () => {
         onChangeText={setQuery}
       />
 
+      <Text style={styles.label}>Rango de búsqueda:</Text>
+      <Picker
+        selectedValue={range}
+        onValueChange={(value) => setRange(value)}
+        style={styles.picker}
+      >
+        {[10, 20, 30, 40, 50, 60].map((num) => (
+          <Picker.Item key={num} label={`${num}`} value={num} />
+        ))}
+      </Picker>
+
       <TouchableOpacity onPress={handleSearch} style={styles.button}>
         <Text style={styles.buttonText}>Buscar</Text>
       </TouchableOpacity>
@@ -69,75 +108,101 @@ const handleSearch = async () => {
       <FlatList
         data={results}
         keyExtractor={(item, index) => item.id?.toString() || index.toString()}
-        renderItem={({ item }) => {
-          const isMatch =
-            item.NIC === parseInt(query) || item.Medidor === parseInt(query);
-
-          return (
-            <View
-              style={[
-                styles.card,
-                isMatch && styles.highlightCard
-              ]}
-            >
-              <Text style={styles.title}>NIC: {item.NIC}</Text>
-              <Text>Medidor: {item.Medidor}</Text>
-              <Text>Suscriptor: {item.Suscriptor}</Text>
-              <Text>Dirección: {item.Dirección}</Text>
-              <Text>Localidad: {item.Localidad}</Text>
-              <Text>Cruce: {item.CRUCE}</Text>
-              <Text>Orden: {item.ORDEN}</Text>
-              <Text>Fecha: {formatFecha(item.Fecha)}</Text>
-            </View>
-          );
-        }}
+        ListHeaderComponent={results.length > 0 ? renderHeader : null}
+        renderItem={renderItem}
         ListEmptyComponent={
           query.length > 0 ? (
             <Text style={styles.status}>Sin resultados</Text>
           ) : null
         }
       />
-
     </View>
   );
 };
 
 export default SearchStorageComponent;
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#e8f5e9', // Verde muy clarito
     padding: 16,
-    paddingTop: 60,
-  },
-  status: {
-    fontSize: 18,
-    marginBottom: 10,
-    fontWeight: 'bold',
-  },
-
-  card: {
-    backgroundColor: '#f0f0f0',
-    padding: 12,
-    marginBottom: 10,
-    borderRadius: 8,
+    paddingTop: 40,
   },
   title: {
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 4,
+    color: '#2e7d32',
+    marginBottom: 10,
+  },
+  input: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#a5d6a7',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  label: {
+    fontWeight: '600',
+    color: '#388e3c',
+    marginBottom: 5,
+  },
+  picker: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#a5d6a7',
+    borderRadius: 8,
+    marginBottom: 15,
   },
   button: {
-    marginTop: 10,
-    backgroundColor: '#007bff',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#388e3c',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 6,
     alignSelf: 'flex-start',
+    marginBottom: 15,
   },
   buttonText: {
     color: '#fff',
     fontWeight: '600',
   },
-  highlightCard: {
-    backgroundColor: '#4CAF50', // Verde
+  status: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#c62828',
+    textAlign: 'center',
+    marginTop: 20,
   },
-
+  tableHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#66bb6a',
+    paddingVertical: 6,
+    borderRadius: 4,
+    marginBottom: 4,
+  },
+  headerCell: {
+    flex: 1,
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    marginBottom: 2,
+    borderRadius: 4,
+    paddingVertical: 6,
+  },
+  cell: {
+    flex: 1,
+    fontSize: 12,
+    color: '#2e7d32',
+    textAlign: 'center',
+  },
+  centralRow: {
+    backgroundColor: '#c8e6c9', // Verde más fuerte para resaltar el central
+  },
 });

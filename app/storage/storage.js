@@ -16,10 +16,37 @@ export const initDB = () => {
     CRUCE TEXT,
     ORDEN INTEGER,
     UNIQUE (NIC, Medidor) ON CONFLICT IGNORE
-);`,
+);
+
+CREATE TABLE IF NOT EXISTS Cargue (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status INTEGER DEFAULT 0
+  );
+
+`,
+  )
+  
+};
+
+export const insertCarga = (num, success, error) => {
+  db.execSync(
+    `INSERT INTO Cargue (status)  
+    VALUES (?)`,
+    [num],
+    (_, result) => success && success(result),
+    (_, err) => error && error(err)
   )
 };
 
+export const getCarga = () => {
+  try {
+    const rows = db.getAllSync(`SELECT * FROM lecturas;`);
+    return rows; // this is an array of objects
+  } catch (err) {
+    console.error('Error :', err);
+    return [];
+  }
+};
 export const insertLectura = (lectura, success, error) => {
   db.execSync(
     `INSERT INTO lecturas (NIC, Medidor, Suscriptor, Localidad, Direccion, Fecha, CRUCE, ORDEN)  
@@ -62,7 +89,7 @@ export const saveLecturasBatch = (lecturas) => {
         l.Medidor,
         l.Suscriptor,
         l.Localidad,
-        l.Direccion,
+        l.Dirección,
         l.Fecha,
         l.CRUCE,
         l.ORDEN
@@ -125,7 +152,7 @@ export const buscarLecturasConRango = (num, rango) => {
 export const borrarTodo = () => {
   try {
     db.execSync(`DELETE FROM lecturas;`);
-    console.log("Todos los registros han sido eliminados");
+    return "Todos los registros han sido eliminados";
   } catch (error) {
     console.error("Error al borrar los datos:", error);
   }

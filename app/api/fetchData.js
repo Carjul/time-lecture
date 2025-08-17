@@ -1,33 +1,45 @@
 // src/api/fetchData.js
 import axios from 'axios';
-import { initDB, saveLecturasBatch } from '../storage/storage';
+import { initDB, saveLecturasBatch ,insertCarga } from '../storage/storage';
 
 const API_URL = 'https://time-lecture.onrender.com/api/all-lecturas';
 
-export const descargarDatosProgresivamente = async () => {
-  initDB()
+export const descargarDatosProgresivamente = async (onProgress) => {
+  initDB();
 
-  let page = 1;
-  let limit = 5000; // Puedes ajustarlo para no llenar la memoria
+  const limit = 5000;        // ajusta según tu memoria
+  let total = 0;
   let totalPaginas = 1;
+  let saved = 0;
 
-  while (page <= totalPaginas) {
+  // 1) Primer request para saber total
+  let page = 1;
+  const first = await axios.get(`${API_URL}?page=${page}&limit=${limit}`);
+  const { data: data1, total: totalCount } = first.data;
+
+  total = totalCount || (data1?.length ?? 0);
+  totalPaginas = Math.max(1, Math.ceil(total / limit));
+
+  // Guardar y reportar progreso
+  if (Array.isArray(data1) && data1.length) {
+    saveLecturasBatch(data1);
+    saved += data1.length;
+  }
+  onProgress?.({ page, totalPaginas, saved, total });
+
+  // 2) Resto de páginas
+  for (page = 2; page <= totalPaginas; page++) {
     const res = await axios.get(`${API_URL}?page=${page}&limit=${limit}`);
-    const { data, total } = res.data;
+    const { data } = res.data;
 
+    if (Array.isArray(data) && data.length) {
+      saveLecturasBatch(data);
+      saved += data.length;
+    }
 
-    // Calcular páginas totales
-    totalPaginas = Math.ceil(total / limit);
-
-    // Guardar datos en SQLite progresivamente
-    saveLecturasBatch(data);
-
-    console.log(`Página ${page} guardada en SQLite`);
-    page++;
+    onProgress?.({ page, totalPaginas, saved, total });
   }
 
   console.log("✅ Descarga completa");
-
-  return {  fromCache: true };
+  return { fromCache: true, saved, total };
 };
-
