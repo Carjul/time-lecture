@@ -39,7 +39,7 @@ export const descargarDatosProgresivamente = async (onProgress) => {
 
     onProgress?.({ page, totalPaginas, saved, total });
   }
-
+  insertCarga(1)
   console.log("✅ Descarga completa");
   return { fromCache: true, saved, total };
 };

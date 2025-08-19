@@ -1,8 +1,8 @@
 // HomeScreen.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { descargarDatosProgresivamente } from '../api/fetchData';
-import { borrarTodo } from '../storage/storage.js';
+import { borrarTodo, getCarga , insertCarga} from '../storage/storage.js';
 
 // Permitir animaciones en Android
 if (Platform.OS === 'android') {
@@ -14,7 +14,10 @@ if (Platform.OS === 'android') {
 export default function HomeScreen() {
   const [fromCache, setFromCache] = useState(false);
   const [loading, setLoading] = useState(false);
-
+useEffect(()=>{
+  
+  console.log(getCarga())
+},[])
   // Estado de progreso
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);

@@ -11,14 +11,18 @@ const app = express();
 app.set('port', process.env.PORT)
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static("public/dist"));
+app.use(express.static("public/calcular_pos"));
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
 // Todas las rutas que NO sean /api/* devuelven index.html (para rutas internas del frontend)
-app.get(/^\/(?!api).*/, (req, res) => {
+app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public/dist/"));
 });
+app.get("/api/pos", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/calcular_pos/index.html"));
+})
 
 // looger
 let count = 0;

@@ -28,13 +28,10 @@ CREATE TABLE IF NOT EXISTS Cargue (
   
 };
 
-export const insertCarga = (num, success, error) => {
+export const insertCarga = (num) => {
   db.execSync(
     `INSERT INTO Cargue (status)  
-    VALUES (?)`,
-    [num],
-    (_, result) => success && success(result),
-    (_, err) => error && error(err)
+    VALUES (?)`, [num]
   )
 };
 
@@ -152,6 +149,7 @@ export const buscarLecturasConRango = (num, rango) => {
 export const borrarTodo = () => {
   try {
     db.execSync(`DELETE FROM lecturas;`);
+    insertCarga(0)
     return "Todos los registros han sido eliminados";
   } catch (error) {
     console.error("Error al borrar los datos:", error);
