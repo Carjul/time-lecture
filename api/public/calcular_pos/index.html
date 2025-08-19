@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find_Pos_Facture</title>
+    <link rel="stylesheet" crossorigin href="/assets/style.css">
+  <script crossorigin src="/assets/demo.js"></script>
+</head> 
+<body>
+  <div class="container">
+    <h1>Buscar Posición</h1>
+
+    <section>
+      <h3>Inicializar</h3>
+      <details>
+        <summary>Instrucciones</summary>
+        <p>Para empezar, ingresa el número consecutivo en la factura y su posición en simex.</p>
+        <div class="form-group">
+          <label for="numero">Consecutivo</label>
+          <input type="text" id="numero" placeholder="Número de factura">
+          <label for="posicion">Clave</label> 
+          <input type="text" id="posicion" placeholder="Posición en simex">
+          <button onclick="guardar()">Inicializar</button>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h3>Buscar</h3>
+      <details>
+        <summary>Buscar</summary>
+        <div class="form-group">
+          <label for="buscar_posicion">Clave</label> 
+          <input type="text" id="buscar_posicion" placeholder="Posición en simex">
+          <button onclick="buscar()">Buscar</button>
+        </div>
+        <div id="resultado" class="resultado">0</div>
+      </details>
+    </section>
+
+   <!--  <button class="reset" onclick="reinicio()">Reiniciar</button> -->
+  </div>
+
+  
+</body>
+</html>
