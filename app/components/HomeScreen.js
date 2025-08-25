@@ -1,23 +1,14 @@
 // HomeScreen.js
-import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, UIManager, Platform } from 'react-native';
+import { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { descargarDatosProgresivamente } from '../api/fetchData';
-import { borrarTodo, getCarga , insertCarga} from '../storage/storage.js';
+import { borrarTodo } from '../storage/storage.js';
 
-// Permitir animaciones en Android
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
 
 export default function HomeScreen() {
   const [fromCache, setFromCache] = useState(false);
   const [loading, setLoading] = useState(false);
-useEffect(()=>{
-  
-  console.log(getCarga())
-},[])
+
   // Estado de progreso
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -65,7 +56,6 @@ useEffect(()=>{
 
   // Animar desplegable
   const toggleSection = (type) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (type === "load") setShowLoad(!showLoad);
     if (type === "delete") setShowDelete(!showDelete);
   };
@@ -123,7 +113,7 @@ useEffect(()=>{
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, paddingTop: 50, backgroundColor: "#f8fff8", flex: 1 },
+  container: { padding: 16, paddingTop: 50, backgroundColor: "#e8f5e9", flex: 1 },
   status: { fontSize: 18, marginBottom: 20, fontWeight: 'bold', color: "#2e7d32" },
 
   sectionHeader: {

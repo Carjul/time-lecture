@@ -1,6 +1,6 @@
 // src/api/fetchData.js
 import axios from 'axios';
-import { initDB, saveLecturasBatch ,insertCarga } from '../storage/storage';
+import { initDB, saveLecturasBatch,borrarTodo } from '../storage/storage';
 
 const API_URL = 'https://time-lecture.onrender.com/api/all-lecturas';
 
@@ -39,7 +39,7 @@ export const descargarDatosProgresivamente = async (onProgress) => {
 
     onProgress?.({ page, totalPaginas, saved, total });
   }
-  insertCarga(1)
+
   console.log("✅ Descarga completa");
   return { fromCache: true, saved, total };
 };

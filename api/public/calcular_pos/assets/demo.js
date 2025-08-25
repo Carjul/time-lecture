@@ -1,13 +1,7 @@
 
-
-
-localStorage.setItem("result", 0);
-
-var posicion = 0;  
-
 function guardar() {
     var consecutivo = document.getElementById("numero").value;
-    var pos =document.getElementById("posicion").value;
+    var pos = document.getElementById("posicion").value;
     
     localStorage.setItem("result",  (parseInt(consecutivo) - parseInt(pos))  );
     document.getElementById("numero").value = "";

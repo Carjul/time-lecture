@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker'; 
+import { Picker } from '@react-native-picker/picker';
 import { buscarLecturasConRango } from '../storage/storage.js';
 
 function formatFecha(serial) {
@@ -24,7 +24,7 @@ function formatFecha(serial) {
 
 const SearchStorageComponent = () => {
   const [query, setQuery] = useState('');
-  const [range, setRange] = useState(10); // rango seleccionado
+  const [range, setRange] = useState(10);
   const [results, setResults] = useState([]);
   const [centralId, setCentralId] = useState(null);
 
@@ -81,30 +81,33 @@ const SearchStorageComponent = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Buscar lecturas</Text>
+      <View  style={styles.searchBox}>
+          <Picker
+          onValueChange={(value) => setRange(value)}
+          style={styles.picker}
+        >
+          {[10, 20, 30, 40, 50, 60].map((num) => (
+            <Picker.Item key={num} label={`${num}`} value={num}
 
-      <TextInput
-        style={styles.input}
-        placeholder="Ingresar Nic o Medidor"
-        keyboardType="numeric"
-        value={query}
-        onChangeText={setQuery}
-      />
+            />
+          ))}
+        </Picker>
+        <TextInput
+          style={styles.input}
+          placeholder="Ingresar Nic o Medidor"
+          keyboardType="numeric"
+          value={query}
+          onChangeText={setQuery}
+          placeholderTextColor="orange"
+        />
 
-      <Text style={styles.label}>Rango de búsqueda:</Text>
-      <Picker
-        selectedValue={range}
-        onValueChange={(value) => setRange(value)}
-        style={styles.picker}
-      >
-        {[10, 20, 30, 40, 50, 60].map((num) => (
-          <Picker.Item key={num} label={`${num}`} value={num} />
-        ))}
-      </Picker>
+       {/*  <Text style={styles.label}>Rango de búsqueda:</Text> */}
+      
 
-      <TouchableOpacity onPress={handleSearch} style={styles.button}>
-        <Text style={styles.buttonText}>Buscar</Text>
-      </TouchableOpacity>
-
+        <TouchableOpacity onPress={handleSearch} style={styles.button}>
+          <Text style={styles.buttonText}>Buscar</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={results}
         keyExtractor={(item, index) => item.id?.toString() || index.toString()}
@@ -116,7 +119,7 @@ const SearchStorageComponent = () => {
           ) : null
         }
       />
-    </View>
+    </View >
   );
 };
 
@@ -127,7 +130,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e8f5e9', // Verde muy clarito
     padding: 16,
-    paddingTop: 40,
+    paddingTop: 20,
+  },
+    searchBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#b3dfb3ff", // verde claro
+    borderRadius: 10,
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 25,
+    height: 80,
   },
   title: {
     fontSize: 20,
@@ -136,13 +149,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#c8e6c9',
     borderWidth: 1,
+    color: 'orange',
     borderColor: '#a5d6a7',
     borderRadius: 8,
+    textShadowColor: '#a5d6a7',
     padding: 10,
-    marginBottom: 10,
     fontSize: 16,
+    width: '52%',
+    height: 50,
+    
   },
   label: {
     fontWeight: '600',
@@ -150,19 +167,22 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   picker: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
+    backgroundColor: '#c8e6c9',
+    color: 'orange',
     borderColor: '#a5d6a7',
-    borderRadius: 8,
-    marginBottom: 15,
+    width: '24%',
+    height: 50,
+    marginLeft: 3,
+    marginRight: 4,
   },
   button: {
     backgroundColor: '#388e3c',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 6,
-    alignSelf: 'flex-start',
-    marginBottom: 15,
+    width: '20%',
+    height: 47,
+    marginLeft: 5,
   },
   buttonText: {
     color: '#fff',

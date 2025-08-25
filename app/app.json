@@ -4,21 +4,21 @@
     "slug": "snack-f7707f97-36b7-44dd-8e96-370c172ace31",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/adaptive-icon.png",
+    "icon": "./assets/2.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#c8e6c9"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/2.png",
+        "backgroundColor": "#c8e6c9"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.carjul.snackf7707f9736b744dd8e96370c172ace31"

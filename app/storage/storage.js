@@ -17,33 +17,13 @@ export const initDB = () => {
     ORDEN INTEGER,
     UNIQUE (NIC, Medidor) ON CONFLICT IGNORE
 );
-
-CREATE TABLE IF NOT EXISTS Cargue (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    status INTEGER DEFAULT 0
-  );
-
 `,
   )
   
 };
 
-export const insertCarga = (num) => {
-  db.execSync(
-    `INSERT INTO Cargue (status)  
-    VALUES (?)`, [num]
-  )
-};
 
-export const getCarga = () => {
-  try {
-    const rows = db.getAllSync(`SELECT * FROM lecturas;`);
-    return rows; // this is an array of objects
-  } catch (err) {
-    console.error('Error :', err);
-    return [];
-  }
-};
+
 export const insertLectura = (lectura, success, error) => {
   db.execSync(
     `INSERT INTO lecturas (NIC, Medidor, Suscriptor, Localidad, Direccion, Fecha, CRUCE, ORDEN)  
