@@ -81,8 +81,8 @@ const SearchStorageComponent = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Buscar lecturas</Text>
-      <View  style={styles.searchBox}>
-          <Picker
+      <View style={styles.searchBox}>
+        <Picker
           onValueChange={(value) => setRange(value)}
           style={styles.picker}
         >
@@ -101,9 +101,6 @@ const SearchStorageComponent = () => {
           placeholderTextColor="orange"
         />
 
-       {/*  <Text style={styles.label}>Rango de búsqueda:</Text> */}
-      
-
         <TouchableOpacity onPress={handleSearch} style={styles.button}>
           <Text style={styles.buttonText}>Buscar</Text>
         </TouchableOpacity>
@@ -116,7 +113,8 @@ const SearchStorageComponent = () => {
         ListEmptyComponent={
           query.length > 0 ? (
             <Text style={styles.status}>Sin resultados</Text>
-          ) : null
+          ) : <Text style={styles.status2}>No hay lecturas para mostrar.</Text>
+
         }
       />
     </View >
@@ -128,14 +126,13 @@ export default SearchStorageComponent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e8f5e9', // Verde muy clarito
+    backgroundColor: '#eaf5ebff', // Verde muy clarito
     padding: 16,
     paddingTop: 20,
   },
-    searchBox: {
+  searchBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#b3dfb3ff", // verde claro
     borderRadius: 10,
     alignItems: "center",
     width: "100%",
@@ -159,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: '52%',
     height: 50,
-    
+
   },
   label: {
     fontWeight: '600',
@@ -195,6 +192,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
+  status2: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#66bb6a',
+    textAlign: 'center',
+    marginTop: 20,
+    flex: 1,
+    backgroundColor: '#e8f5e9', // Verde muy clarito
+    padding: 16,
+    paddingTop: 20,
+  },
   tableHeader: {
     flexDirection: 'row',
     backgroundColor: '#66bb6a',
@@ -221,6 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#2e7d32',
     textAlign: 'center',
+    padding:2
   },
   centralRow: {
     backgroundColor: '#c8e6c9', // Verde más fuerte para resaltar el central

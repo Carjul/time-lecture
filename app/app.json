@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "Tiempos de Lectura",
-    "slug": "snack-f7707f97-36b7-44dd-8e96-370c172ace31",
-    "version": "1.0.0",
+    "slug": "Time_Lecture",
+    "version": "1.2.3",
     "orientation": "portrait",
-    "icon": "./assets/2.png",
+    "icon": "./assets/z.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/2.png",
+        "foregroundImage": "./assets/z.png",
         "backgroundColor": "#c8e6c9"
       },
       "edgeToEdgeEnabled": true,

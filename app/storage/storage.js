@@ -76,7 +76,7 @@ export const saveLecturasBatch = (lecturas) => {
     stmt.finalizeSync();
   });
 
-  console.log(`✅ Guardadas ${lecturas.length} lecturas`);
+  //console.log(`✅ Guardadas ${lecturas.length} lecturas`);
 };
 
 
