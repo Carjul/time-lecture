@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Tiempos de Lectura",
-    "slug": "Time_Lecture",
+    "slug": "tiempos-de-lectura",
     "version": "1.2.3",
     "orientation": "portrait",
     "icon": "./assets/z.png",
@@ -21,7 +21,7 @@
         "backgroundColor": "#c8e6c9"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.carjul.snackf7707f9736b744dd8e96370c172ace31"
+      "package": "com.carjul2.snackf7707f9736b744dd8e96370c172ace31"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,8 +31,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "fa9e0b4c-c0be-4550-8e82-608ae5bedbcd"
+        "projectId": "b282d78e-1785-4e37-81b5-33b4d4ad57d8"
       }
-    }
+    },
+    "owner": "carjul2"
   }
 }
