@@ -25,15 +25,20 @@ exports.uploadFile = async (req, res) => {
 };
 
 exports.getLecturas = async (req, res) => {
-    const { num, rango } = req.query;
-    if (!num && !rango) {
+    const { num, rango, tipo } = req.query;
+    if (!num && !rango && !tipo) {
         return res.status(400).json({ message: "Medidor o Nic son requeridos" });
     }
     const nicNum = parseInt(num);
     const r = parseInt(rango);
+    const tipoNum = parseInt(tipo);
 
-    let registroCentral = await collection.findOne({ NIC: nicNum });
-    if (!registroCentral) {
+    let registroCentral = null
+
+    if (tipoNum === 1) {
+        registroCentral = await collection.findOne({ NIC: nicNum });
+    }
+    else if (tipoNum === 0) {
         registroCentral = await collection.findOne({ Medidor: nicNum });
     }
     if (!registroCentral) {
@@ -55,21 +60,21 @@ exports.getLecturas = async (req, res) => {
 };
 
 exports.getAllLecturas = async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // página actual
-  const limit = parseInt(req.query.limit) || 1000; // registros por página
-  const skip = (page - 1) * limit;
+    const page = parseInt(req.query.page) || 1; // página actual
+    const limit = parseInt(req.query.limit) || 1000; // registros por página
+    const skip = (page - 1) * limit;
 
-  const data = await collection.find()
-    .skip(skip)
-    .limit(limit)
-    .toArray();
+    const data = await collection.find()
+        .skip(skip)
+        .limit(limit)
+        .toArray();
 
-  res.json({
-    page,
-    limit,
-    total: await collection.countDocuments(),
-    data
-  });
+    res.json({
+        page,
+        limit,
+        total: await collection.countDocuments(),
+        data
+    });
 };
 
 

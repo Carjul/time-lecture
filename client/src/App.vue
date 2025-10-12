@@ -6,7 +6,7 @@
    <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/upload">upload</RouterLink>
-  </nav>
+  </nav> 
 </template>
 <script setup>
 </script>

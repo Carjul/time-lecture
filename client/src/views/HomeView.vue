@@ -4,19 +4,32 @@
       <h1>Tiempos de Lectura</h1>
     </header>
     <main>
+      <div class="tipo-busqueda">
+        <strong>Buscar por:</strong>
+        <div>
+          <input type="radio" id="medidor" value="0" v-model="tipo" />
+          <label for="medidor">Medidor</label>
+        </div>
+        <div>
+          <input type="radio" id="nic" value="1" v-model="tipo" />
+          <label for="nic">NIC</label>
+        </div>
+      </div>
+
       <section class="busqueda">
+
         <select v-model="rango">
           <option v-for="n in rangos" :key="n" :value="n">{{ n }}</option>
         </select>
-        <input type="text" v-model="num" placeholder="Ingrese NIC o Medidor"  />
+        <input type="text" v-model="num" placeholder="Ingrese número" />
         <button @click="fetchLecturas">Buscar</button>
       </section>
-        <div v-if="alertMsg==='no encontrado'">
-          <AlertMsg :msg="alertMsg" @close="alertMsg = ''" />
-        </div>
-        <div v-else>
-          <LecturasList :lecturas="lecturas" />
-        </div>
+      <div v-if="alertMsg === 'no encontrado'">
+        <AlertMsg :msg="alertMsg" @close="alertMsg = ''" />
+      </div>
+      <div v-else>
+        <LecturasList :lecturas="lecturas" />
+      </div>
     </main>
   </div>
 </template>
@@ -28,22 +41,27 @@ import AlertMsg from '../components/AlertMsg.vue'
 
 const lecturas = ref([])
 const num = ref('')
+const tipo = ref(0) // 0 para Medidor, 1 para NIC
 const rango = ref(10)
 const rangos = [10, 20, 30, 40, 50, 60]
 const alertMsg = ref('')
 
 const fetchLecturas = async () => {
   if (!num.value) return
-  const res = await fetch(`/api/lecturas?num=${num.value}&rango=${rango.value}`)
+  const res = await fetch(`/api/lecturas?num=${num.value}&rango=${rango.value}&tipo=${tipo.value}`)
   const data = await res.json()
   if (data.Msg) {
     lecturas.value = []
     alertMsg.value = data.Msg
+    document.body.style.transform = "scale(1)";
     return
   }
   alertMsg.value = ''
   lecturas.value = data
-
+  if (window.innerWidth <= 768) {
+    document.body.style.transform = "scale(0.48)";
+    document.body.style.transformOrigin = "0 0";
+  }
 }
 
 onMounted(fetchLecturas)
@@ -61,7 +79,15 @@ onMounted(fetchLecturas)
   --header-text: #fff;
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
-
+.tipo-busqueda {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
 .container {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -76,7 +102,7 @@ onMounted(fetchLecturas)
 header {
   width: 100%;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   background: var(--header-bg);
   color: var(--header-text);
   padding: 0rem 0;
@@ -140,5 +166,4 @@ main {
 .busqueda button:hover {
   background: var(--accent-dark);
 }
-
 </style>
