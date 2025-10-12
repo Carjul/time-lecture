@@ -89,7 +89,7 @@ function formatFecha(serial) {
   background: var(--secondary-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px #0002;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
   box-sizing: border-box;
   display: grid;
