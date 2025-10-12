@@ -25,7 +25,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+element.style {
+    height: 32px;
+}
 body {
   margin: 0;
   min-width: 320px;
@@ -228,7 +230,6 @@ tr:hover {
   .lecturas-section {
     padding: 0.7rem 0.2rem;
     border-radius: 8px;
-    margin-bottom: 1rem;
     width: 100%;
     min-width: 0;
     box-sizing: border-box;

@@ -88,15 +88,15 @@ function formatFecha(serial) {
 .lecturas-section {
   background: var(--secondary-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 12px #0002;
-  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px #0002;   
   width: 100%;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: auto 1fr;
   justify-items: center;
   align-items: start;
-  padding: 2rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.9em;
+  margin-bottom:30px;
 }
 
 h2 {

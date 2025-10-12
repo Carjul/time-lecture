@@ -11,7 +11,7 @@
 <script setup>
 </script>
 <style scoped>
-nav {
+/* nav {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
@@ -27,6 +27,6 @@ nav a {
 }
 nav a:hover {
   background: var(--accent-light);
-}
+} */
 
 </style>

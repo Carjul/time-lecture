@@ -59,7 +59,7 @@ const fetchLecturas = async () => {
   alertMsg.value = ''
   lecturas.value = data
   if (window.innerWidth <= 768) {
-    document.body.style.transform = "scale(0.48)";
+    document.body.style.transform = "scale(0.46)";
     document.body.style.transformOrigin = "0 0";
   }
 }
@@ -93,9 +93,7 @@ onMounted(fetchLecturas)
   grid-template-rows: auto 1fr;
   justify-items: center;
   align-items: start;
-  min-height: 100vh;
   background: var(--primary-bg);
-  padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
