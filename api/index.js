@@ -28,7 +28,7 @@ app.get("/api/pos", (req, res) => {
 let count = 0;
 setInterval(() => {
     count++;
-    fetch('https://time-lecture.onrender.com/api/ping')
+    fetch('https://time-lecture-t4iy.onrender.com/api/ping')
         .then(response => response.json())
         .then(data => console.log({
             "Interval count: ": count,
