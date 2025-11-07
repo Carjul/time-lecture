@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,10 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { buscarLecturasConRango } from '../storage/storage.js';
+import { handleSearch } from '../storage/app/features/timelectures.js'
+import { useSelector, useDispatch } from 'react-redux';
+const dispatch = useDispatch();
+const {results, Msg, centralId} = useSelector((state) => state.data);
 
 function formatFecha(serial) {
   if (!serial) return '';
@@ -25,32 +28,16 @@ function formatFecha(serial) {
 const SearchStorageComponent = () => {
   const [query, setQuery] = useState('');
   const [range, setRange] = useState(10);
-  const [results, setResults] = useState([]);
-  const [centralId, setCentralId] = useState(null);
 
-  const handleSearch = async () => {
-    try {
-      const resultado = buscarLecturasConRango(query, range);
+useEffect(()=>{
+  if(Msg && Msg.length > 0){
+    alert(Msg);
+    setQuery('');
+  }
+},[Msg])
 
-      if (resultado.Msg) {
-        setResults([]);
-        setCentralId(null);
-        alert(resultado.Msg);
-        return;
-      }
-
-      setCentralId(resultado.central?.id);
-
-      const listaFinal = [
-        ...(resultado.anteriores || []),
-        resultado.central,
-        ...(resultado.siguientes || []),
-      ];
-
-      setResults(listaFinal);
-    } catch (e) {
-      console.error('Error searching in storage:', e);
-    }
+  const handleSearchs = async () => {
+      dispatch(handleSearch(query, range));
   };
 
   const renderHeader = () => (
@@ -101,7 +88,7 @@ const SearchStorageComponent = () => {
           placeholderTextColor="orange"
         />
 
-        <TouchableOpacity onPress={handleSearch} style={styles.button}>
+        <TouchableOpacity onPress={handleSearchs} style={styles.button}>
           <Text style={styles.buttonText}>Buscar</Text>
         </TouchableOpacity>
       </View>
