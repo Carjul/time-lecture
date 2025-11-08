@@ -90,7 +90,7 @@ exports.getLecturasItinereario = async (req, res) => {
 
   // Dividir en tres secciones
   const arriba = array.slice(0, index);
-  const medio = [array[index]];
+  const medio = array[index];
   const abajo = array.slice(index + 1);
 
   return { arriba, medio, abajo };

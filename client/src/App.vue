@@ -3,7 +3,7 @@
   <main>
     <RouterView />
   </main>
-  <<nav>
+  <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/upload">upload</RouterLink>
   </nav>  
@@ -11,15 +11,15 @@
 <script setup>
 </script>
 <style scoped>
-/* nav {
+nav {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-
+ margin-top: 10rem;
 }
 nav a {
   text-decoration: none;
-  color: var(--text-main);
+  color: var(--primary-bg);
   font-weight: bold;
   padding: 0.1rem 0.1rem;
   border-radius: 4px;
@@ -27,6 +27,7 @@ nav a {
 }
 nav a:hover {
   background: var(--accent-light);
-} */
+  color: var(--text-main);
+} 
 
 </style>

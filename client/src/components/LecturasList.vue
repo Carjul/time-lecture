@@ -54,18 +54,30 @@ const headers = computed(() => {
 
 
 
-// Convierte fecha Excel a legible
 function formatFecha(serial) {
-  if (!serial) return ''
-  const utc_days = Math.floor(serial - 25569)
-  const utc_value = utc_days * 86400
-  const date_info = new Date(utc_value * 1000)
-  const fractional_day = serial - Math.floor(serial)
-  const total_seconds = Math.round(86400 * fractional_day)
-  date_info.setSeconds(total_seconds)
-  const parts = date_info.toLocaleString().split(',')
-  return parts.length > 1 ? parts[1].trim() : date_info.toLocaleString()
+  if (!serial) return '';
+
+  // Excel cuenta días desde 1900-01-01 (con 25569 como offset a Unix epoch)
+  const utcDays = Math.floor(serial - 25569);
+  const utcValue = utcDays * 86400; // segundos desde 1970-01-01
+  const date = new Date(utcValue * 1000);
+
+  // Parte fraccional del día → horas, minutos, segundos
+  const fractionalDay = serial - Math.floor(serial);
+  const totalSeconds = Math.round(86400 * fractionalDay);
+  date.setUTCSeconds(totalSeconds);
+
+  // Formatear en UTC explícitamente (sin zona local)
+  /* const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0'); */
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+  return `${hours}:${minutes}:${seconds}`;
 }
+
 </script>
 <style scoped>
 :root {
