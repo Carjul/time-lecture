@@ -83,7 +83,7 @@ const fetchLecturas = async () => {
     if (data.Msg) {
       lecturas.value = [];
       alertMsg.value = data.Msg;
-      resetZoom();
+      document.body.style.transform = "scale(1)";
       return;
     }
 
@@ -91,14 +91,16 @@ const fetchLecturas = async () => {
     alertMsg.value = '';
     lecturas.value = data;
     
-    // Aplicar zoom solo si es móvil
-    applyZoomIfMobile();
+     if (window.innerWidth <= 768) {
+    document.body.style.transform = "scale(0.46)";
+    document.body.style.transformOrigin = "0 0";
+  }
 
   } catch (error) {
     console.error('Error al obtener lecturas:', error);
     alertMsg.value = 'Error al conectarse al servidor';
     lecturas.value = [];
-    resetZoom();
+    document.body.style.transform = "scale(1)";
   }
   finally {
     lecturasListRef.value?.setLoading(false)
