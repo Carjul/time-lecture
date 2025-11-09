@@ -32,7 +32,7 @@
         <AlertMsg :msg="alertMsg" @close="alertMsg = ''" />
       </div>
       <div v-else>
-        <LecturasList :lecturas="lecturas" />
+        <LecturasList :lecturas="lecturas" ref="lecturasListRef" />
       </div>
     </main>
   </div>
@@ -51,15 +51,19 @@ const rango = ref(10)
 const itinerario = ref('1-4')
 const rangos = [10, 20, 30, 40, 50, 60, 'Itinerario']
 const alertMsg = ref('')
+
+// Referencia al hijo
+const lecturasListRef = ref(null)
+
 const fetchLecturas = async () => {
   if (!num.value) return;
-
+   lecturasListRef.value?.setLoading(true)
   try {
     // Construimos la URL dinámicamente
     const baseUrl = rango.value === 'Itinerario'
       ? '/api/lecturasByItin'
       : '/api/lecturas';
-    
+
     const params = new URLSearchParams({
       num: num.value,
       tipo: tipo.value,
@@ -86,7 +90,7 @@ const fetchLecturas = async () => {
     // Si todo va bien
     alertMsg.value = '';
     lecturas.value = data;
-
+    
     // Aplicar zoom solo si es móvil
     applyZoomIfMobile();
 
@@ -95,6 +99,9 @@ const fetchLecturas = async () => {
     alertMsg.value = 'Error al conectarse al servidor';
     lecturas.value = [];
     resetZoom();
+  }
+  finally {
+    lecturasListRef.value?.setLoading(false)
   }
 };
 
@@ -111,38 +118,6 @@ function resetZoom() {
   document.body.style.transformOrigin = "center";
 }
 
-/* 
-const fetchLecturas = async () => {
-  if (!num.value) return
-  if (rango.value === 'Itinerario') {
-    const response = await fetch(`/api/lecturasByItin?num=${num.value}&itin=${itinerario.value}&tipo=${tipo.value}`)
-    const data = await response.json()
-    if (data.Msg) {
-      lecturas.value = []
-      alertMsg.value = data.Msg
-      document.body.style.transform = "scale(1)";
-      return
-    }
-    alertMsg.value = ''
-    lecturas.value = data
-  }else{
-     const res = await fetch(`/api/lecturas?num=${num.value}&rango=${rango.value}&tipo=${tipo.value}`)
-    const data = await res.json()
-    if (data.Msg) {
-      lecturas.value = []
-      alertMsg.value = data.Msg
-      document.body.style.transform = "scale(1)";
-      return
-    }
-    alertMsg.value = ''
-    lecturas.value = data 
-  }
-  if (window.innerWidth <= 768) {
-    document.body.style.transform = "scale(0.46)";
-    document.body.style.transformOrigin = "0 0";
-  }
-  
-} */
 const fectItin = async () => {
   const resp = await fetch(`/api/cruces`)
   const data = await resp.json()
@@ -176,6 +151,7 @@ onMounted(fectItin)
 }
 
 .container {
+  margin-top: 10px;
   display: grid;
   grid-template-rows: auto 1fr;
   justify-items: center;

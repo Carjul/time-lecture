@@ -1,7 +1,9 @@
 <template>
   <section class="lecturas-section">
     
+    
     <div v-if="!allLecturas.length">No hay lecturas para mostrar.</div>
+    <div  class="loading" v-else-if="isLoading"> <img :src="loadding" alt="gif"></div>
     <table v-else>
       <thead>
         <tr>
@@ -25,7 +27,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, defineExpose, defineProps } from 'vue'
+import loadding from '../assets/Spinner-3.gif'
 
 const props = defineProps({
   lecturas: {
@@ -33,8 +36,15 @@ const props = defineProps({
     default: () => ({ anteriores: [], central: null, siguientes: [] })
   }
 })
+const isLoading = ref(false)
 
-// Unifica todas las lecturas en un solo array
+// expone un método para que el padre lo invoque
+const setLoading = (value) => {
+  isLoading.value = value
+}
+
+defineExpose({ setLoading })
+
 const allLecturas = computed(() => [
   ...(props.lecturas.anteriores || []),
   props.lecturas.central,
@@ -96,7 +106,10 @@ function formatFecha(serial) {
   --central-row-bg: #b9f6ca;
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
-
+img{
+  margin-top: 15px;
+  border-radius: 100%;
+}
 .lecturas-section {
   background: var(--secondary-bg);
   border-radius: 12px;
