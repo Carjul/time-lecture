@@ -31,6 +31,9 @@
       <div v-if="alertMsg === 'no encontrado'">
         <AlertMsg :msg="alertMsg" @close="alertMsg = ''" />
       </div>
+      <div class="loading" v-else-if="isLoading && alertMsg===''" > 
+        <img :src="loadding" alt="gif">
+      </div>
       <div v-else>
         <LecturasList :lecturas="lecturas" ref="lecturasListRef" />
       </div>
@@ -42,6 +45,7 @@
 import { ref, onMounted } from 'vue'
 import LecturasList from '../components/LecturasList.vue'
 import AlertMsg from '../components/AlertMsg.vue'
+import loadding from '../assets/Spinner-3.gif'
 
 const lecturas = ref([])
 const cruces = ref([])
@@ -52,12 +56,20 @@ const itinerario = ref('1-4')
 const rangos = [10, 20, 30, 40, 50, 60, 'Itinerario']
 const alertMsg = ref('')
 
+const isLoading = ref(false)
+
+// expone un método para que el padre lo invoque
+const setLoading = (value) => {
+  isLoading.value = value
+}
+
 // Referencia al hijo
-const lecturasListRef = ref(null)
 
 const fetchLecturas = async () => {
   if (!num.value) return;
-   lecturasListRef.value?.setLoading(true)
+  setLoading(true)
+    applyZoomIfMobile();
+
   try {
     // Construimos la URL dinámicamente
     const baseUrl = rango.value === 'Itinerario'
@@ -83,27 +95,25 @@ const fetchLecturas = async () => {
     if (data.Msg) {
       lecturas.value = [];
       alertMsg.value = data.Msg;
-      document.body.style.transform = "scale(1)";
+      resetZoom();
       return;
     }
 
     // Si todo va bien
     alertMsg.value = '';
     lecturas.value = data;
-    
-     if (window.innerWidth <= 768) {
-    document.body.style.transform = "scale(0.46)";
-    document.body.style.transformOrigin = "0 0";
-  }
+
+    // Aplicar zoom solo si es móvil
+    applyZoomIfMobile();
 
   } catch (error) {
     console.error('Error al obtener lecturas:', error);
     alertMsg.value = 'Error al conectarse al servidor';
     lecturas.value = [];
-    document.body.style.transform = "scale(1)";
+    resetZoom();
   }
   finally {
-    lecturasListRef.value?.setLoading(false)
+    setLoading(false)
   }
 };
 
@@ -141,7 +151,10 @@ onMounted(fectItin)
   --header-text: #fff;
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
-
+img{
+  margin-top: 15px;
+  border-radius: 100%;
+}
 .tipo-busqueda {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -161,7 +174,14 @@ onMounted(fectItin)
   background: var(--primary-bg);
   box-sizing: border-box;
 }
-
+.loading{
+  padding: 5rem ;
+}
+@media (max-width: 768px) {
+  .loading {
+    padding: 24rem; /* o el valor que quieras */
+  }
+}
 header {
   width: 100%;
   text-align: center;
