@@ -1,24 +1,39 @@
 <template>
   <section class="lecturas-section">
-    
-    
     <div v-if="!allLecturas.length">No hay lecturas para mostrar.</div>
     <table v-else>
       <thead>
         <tr>
           <th v-for="key in headers" :key="key">
-          <th v-if="key === 'Fecha'">Hora</th>
-          <th v-else>{{ key }}</th>
+          <th>{{ key }}</th>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(lectura, idx) in allLecturas" :key="lectura._id || idx"
           :class="{ central: idx === anterioresLength }">
-          <td v-for="key in headers" :key="key">
+          <td>
+            <span>{{ lectura.NIC }}</span>
+          </td>
+          <td>
+            <span>{{ lectura.Medidor }}</span>
+          </td>
+          <td>
+            <span>{{ lectura.Suscriptor }}</span>
+          </td>
+          <td>
+            <span>{{ lectura.Dirección }}</span>
+          </td>
+          <td>
+            <span>{{ formatFecha(lectura.Fecha) }}</span>
+          </td>
+          <td>
+            <span>{{ lectura.CRUCE }}</span>
+          </td>
+          <!--  <td v-for="key in headers" :key="key">
             <span v-if="key === 'Fecha'">{{ formatFecha(lectura.Fecha) }}</span>
             <span v-else>{{ lectura[key] }}</span>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -26,8 +41,7 @@
 </template>
 
 <script setup>
-import {  computed } from 'vue'
-
+import { computed } from 'vue'
 
 const props = defineProps({
   lecturas: {
@@ -35,8 +49,6 @@ const props = defineProps({
     default: () => ({ anteriores: [], central: null, siguientes: [] })
   }
 })
-
-
 
 const allLecturas = computed(() => [
   ...(props.lecturas.anteriores || []),
@@ -46,19 +58,11 @@ const allLecturas = computed(() => [
 
 // Calcula la posición de la central
 const anterioresLength = computed(() => (props.lecturas.anteriores || []).length)
-const headers = computed(() => {
-  const first = allLecturas.value[0]
-  return first
-    ? Object.keys(first).filter(
-      (key) => key !== '_id' && key !== 'CRUCE' && key !== 'ORDEN'
-    )
-    : []
-})
 
-
+const headers = ['NIC', 'Medidor', 'Suscriptor', 'Dirección', 'Hora', 'Ruta']
 
 function formatFecha(serial) {
-  if (!serial) return '';
+  if (typeof (serial) === serial) return '';
 
   // Excel cuenta días desde 1900-01-01 (con 25569 como offset a Unix epoch)
   const utcDays = Math.floor(serial - 25569);
@@ -70,10 +74,6 @@ function formatFecha(serial) {
   const totalSeconds = Math.round(86400 * fractionalDay);
   date.setUTCSeconds(totalSeconds);
 
-  // Formatear en UTC explícitamente (sin zona local)
-  /* const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0'); */
   const hours = String(date.getUTCHours()).padStart(2, '0');
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
@@ -103,7 +103,7 @@ function formatFecha(serial) {
 .lecturas-section {
   background: var(--secondary-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 12px #0002;   
+  box-shadow: 0 2px 12px #0002;
   width: 100%;
   box-sizing: border-box;
   display: grid;
@@ -111,7 +111,7 @@ function formatFecha(serial) {
   justify-items: center;
   align-items: start;
   padding: 0.5rem 0.9rem 0.5rem 0.9em;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 }
 
 h2 {
@@ -176,5 +176,4 @@ div {
   margin-bottom: 1em;
   grid-row: 2;
 }
- 
 </style>

@@ -6,6 +6,7 @@
   <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/upload">upload</RouterLink>
+    <RouterLink to="/calcular_pos">Calcular Posición</RouterLink>
   </nav>  
 </template>
 <script setup>

@@ -10,19 +10,15 @@ const app = express();
 
 app.set('port', process.env.PORT)
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-app.use(express.static("public/dist"));
-app.use(express.static("public/calcular_pos"));
+app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
 // Todas las rutas que NO sean /api/* devuelven index.html (para rutas internas del frontend)
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/dist/"));
+    res.sendFile(path.join(__dirname, "public"));
 });
-app.get("/api/pos", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/calcular_pos/index.html"));
-})
 
 // looger
 let count = 0;
@@ -36,7 +32,7 @@ setInterval(() => {
             data
         }))
         .catch(error => console.error("Error fetching API: ", error));
-}, 600000);
+}, 2400000);
 
 
 // Importa y usa las rutas

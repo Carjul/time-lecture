@@ -12,4 +12,8 @@ export default defineConfig({
       }
     }
   },
+    build: {
+    // Cambia 'dist' por la ruta deseada, por ejemplo 'otra-carpeta'
+    outDir: '../api/public' 
+  }
 })

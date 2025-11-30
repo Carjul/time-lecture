@@ -18,7 +18,7 @@
 
       <section class="busqueda">
         <div>
-          <select v-model="rango">
+          <select v-model="rango" @change="fectItin()">
             <option v-for="n in rangos" :key="n" :value="n">{{ n }}</option>
           </select>
           <select v-if="rango === 'Itinerario'" v-model="itinerario">
@@ -35,14 +35,14 @@
         <img :src="loadding" alt="gif">
       </div>
       <div v-else>
-        <LecturasList :lecturas="lecturas" ref="lecturasListRef" />
+        <LecturasList :lecturas="lecturas" />
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import LecturasList from '../components/LecturasList.vue'
 import AlertMsg from '../components/AlertMsg.vue'
 import loadding from '../assets/Spinner-3.gif'
@@ -55,21 +55,18 @@ const rango = ref(10)
 const itinerario = ref('1-4')
 const rangos = [10, 20, 30, 40, 50, 60, 'Itinerario']
 const alertMsg = ref('')
-
 const isLoading = ref(false)
 
-// expone un método para que el padre lo invoque
+
 const setLoading = (value) => {
   isLoading.value = value
 }
 
-// Referencia al hijo
 
 const fetchLecturas = async () => {
   if (!num.value) return;
   setLoading(true)
-    applyZoomIfMobile();
-
+  applyZoomIfMobile();
   try {
     // Construimos la URL dinámicamente
     const baseUrl = rango.value === 'Itinerario'
@@ -116,6 +113,11 @@ const fetchLecturas = async () => {
     setLoading(false)
   }
 };
+const fectItin = async () => {
+  const resp = await fetch(`/api/cruces`)
+  const data = await resp.json()
+  cruces.value = data.cruces
+}
 
 // 🔹 Funciones auxiliares
 function applyZoomIfMobile() {
@@ -130,13 +132,7 @@ function resetZoom() {
   document.body.style.transformOrigin = "center";
 }
 
-const fectItin = async () => {
-  const resp = await fetch(`/api/cruces`)
-  const data = await resp.json()
-  cruces.value = data.cruces
-}
-onMounted(fetchLecturas)
-onMounted(fectItin)
+
 </script>
 <style scoped>
 :root {
