@@ -32,7 +32,7 @@ setInterval(() => {
             data
         }))
         .catch(error => console.error("Error fetching API: ", error));
-}, 2400000);
+}, 1200000);
 
 
 // Importa y usa las rutas
